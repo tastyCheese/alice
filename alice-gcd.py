@@ -8,7 +8,7 @@ def gcd(a: int, b: int) -> int:
 def handler(event, context):
     text = 'Назовите целые числа, и я найду их наибольший общий делитель'
     buttons = True
-    if 'request' in event and not event['session']['new']:
+    if 'request' in event:
         buttons = False
         if event['request']['command'] == 'что ты умеешь':
             text = 'Я умею находить наибольший общий у целых чисел. Просто назовите мне их, и я дам вам ответ.'
@@ -30,7 +30,7 @@ def handler(event, context):
                 for i in range(1, len(numbers)):
                     answer = gcd(answer, numbers[i])
                 text = str(answer)
-            else:
+            elif not event['session']['new']:
                 text = 'Я умею находить наибольший общий делитель только у целых чисел.'
     response = {
         'version': event['version'],
