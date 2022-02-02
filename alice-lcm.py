@@ -5,13 +5,17 @@ def gcd(a: int, b: int) -> int:
     return a
 
 
+def lcm(a: int, b: int) -> int:
+    return (a * b) // gcd(a, b)
+
+
 def handler(event, context):
-    text = 'Назовите целые числа, и я найду их наибольший общий делитель.'
+    text = 'Назовите целые числа, и я найду их наименьшее общее кратное.'
     if 'request' in event:
         if event['request']['command'] == 'что ты умеешь':
-            text = 'Я умею находить наибольший общий делитель у целых чисел. Просто назовите мне их, и я дам вам ответ.'
+            text = 'Я умею находить наименьшее общее кратное у целых чисел. Просто назовите мне их, и я дам вам ответ.'
         elif event['request']['command'] == 'помощь':
-            text = 'Для того, чтобы узнать наибольший общий делитель чисел, просто назовите мне их.'
+            text = 'Для того, чтобы узнать наименьшее общее кратное чисел, просто назовите мне их.'
         else:
             numbers = []
             correct_input = True
@@ -31,12 +35,12 @@ def handler(event, context):
             if correct_input:
                 answer = abs(numbers[0])
                 for i in range(1, len(numbers)):
-                    answer = gcd(answer, abs(numbers[i]))
+                    answer = lcm(answer, abs(numbers[i]))
                 text = str(answer)
             elif is_zero:
-                text = 'К сожалению, ни одно число не имеет наибольшего общего делителя с нулём.'
+                text = 'К сожалению, ни одно число не имеет наименьшего общего кратного с нулём.'
             elif not event['session']['new']:
-                text = 'Я умею находить наибольший общий делитель только у целых чисел.'
+                text = 'Я умею находить наименьшее общее кратное только у целых чисел.'
     response = {
         'version': event['version'],
         'session': event['session'],
